@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MiniGin.Extensions.DependencyInjection</name>
+    </assembly>
+    <members>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ContextExtensions">
+            <summary>
+            Context 扩展方法 - 从请求上下文获取服务
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ContextExtensions.GetService``1(MiniGin.Context)">
+            <summary>
+            获取服务
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ContextExtensions.GetRequiredService``1(MiniGin.Context)">
+            <summary>
+            获取必需服务（如果不存在则抛异常）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ContextExtensions.GetService(MiniGin.Context,System.Type)">
+            <summary>
+            获取服务（按类型）
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.EngineExtensions">
+            <summary>
+            Engine 扩展方法 - 添加依赖注入支持
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.EngineExtensions.ConfigureServices(MiniGin.Engine,System.Action{MiniGin.Extensions.DependencyInjection.IServiceCollection})">
+            <summary>
+            配置服务
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.EngineExtensions.GetServices(MiniGin.Engine)">
+            <summary>
+            获取服务集合
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.EngineExtensions.BuildServices(MiniGin.Engine)">
+            <summary>
+            构建服务提供者并启用依赖注入中间件
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.EngineExtensions.UseScopeDisposal(MiniGin.Engine)">
+            <summary>
+            释放请求作用域的中间件（应该在所有处理完成后调用）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.EngineExtensions.GetServiceProvider(MiniGin.Engine)">
+            <summary>
+            获取根服务提供者
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.IServiceCollection">
+            <summary>
+            服务集合接口
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ServiceCollection">
+            <summary>
+            服务集合实现
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            服务集合扩展方法
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddSingleton``2(MiniGin.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册单例服务
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddSingleton``1(MiniGin.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册单例服务（自身类型）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddSingleton``1(MiniGin.Extensions.DependencyInjection.IServiceCollection,System.Func{System.IServiceProvider,``0})">
+            <summary>
+            注册单例服务（工厂方法）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddSingleton``1(MiniGin.Extensions.DependencyInjection.IServiceCollection,``0)">
+            <summary>
+            注册单例服务（实例）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddScoped``2(MiniGin.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册作用域服务
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddScoped``1(MiniGin.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册作用域服务（自身类型）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddScoped``1(MiniGin.Extensions.DependencyInjection.IServiceCollection,System.Func{System.IServiceProvider,``0})">
+            <summary>
+            注册作用域服务（工厂方法）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddTransient``2(MiniGin.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册瞬态服务
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddTransient``1(MiniGin.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册瞬态服务（自身类型）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.AddTransient``1(MiniGin.Extensions.DependencyInjection.IServiceCollection,System.Func{System.IServiceProvider,``0})">
+            <summary>
+            注册瞬态服务（工厂方法）
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceCollectionExtensions.BuildServiceProvider(MiniGin.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            构建服务提供者
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ServiceDescriptor">
+            <summary>
+            服务描述符
+            </summary>
+        </member>
+        <member name="P:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.ServiceType">
+            <summary>
+            服务类型（接口或抽象类）
+            </summary>
+        </member>
+        <member name="P:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.ImplementationType">
+            <summary>
+            实现类型
+            </summary>
+        </member>
+        <member name="P:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.Factory">
+            <summary>
+            工厂方法
+            </summary>
+        </member>
+        <member name="P:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.Instance">
+            <summary>
+            单例实例
+            </summary>
+        </member>
+        <member name="P:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.Lifetime">
+            <summary>
+            生命周期
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.Describe(System.Type,System.Type,MiniGin.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            使用实现类型创建
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.Describe(System.Type,System.Func{System.IServiceProvider,System.Object},MiniGin.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            使用工厂方法创建
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceDescriptor.Singleton(System.Type,System.Object)">
+            <summary>
+            使用实例创建（仅限 Singleton）
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ServiceLifetime">
+            <summary>
+            服务生命周期
+            </summary>
+        </member>
+        <member name="F:MiniGin.Extensions.DependencyInjection.ServiceLifetime.Singleton">
+            <summary>
+            单例：整个应用程序生命周期内只创建一个实例
+            </summary>
+        </member>
+        <member name="F:MiniGin.Extensions.DependencyInjection.ServiceLifetime.Scoped">
+            <summary>
+            作用域：每个请求创建一个实例
+            </summary>
+        </member>
+        <member name="F:MiniGin.Extensions.DependencyInjection.ServiceLifetime.Transient">
+            <summary>
+            瞬态：每次获取都创建新实例
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ServiceProvider">
+            <summary>
+            服务提供者
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceProvider.GetService(System.Type)">
+            <summary>
+            获取服务
+            </summary>
+        </member>
+        <member name="M:MiniGin.Extensions.DependencyInjection.ServiceProvider.CreateScope">
+            <summary>
+            创建作用域
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.IServiceScope">
+            <summary>
+            服务作用域接口
+            </summary>
+        </member>
+        <member name="P:MiniGin.Extensions.DependencyInjection.IServiceScope.ServiceProvider">
+            <summary>
+            作用域内的服务提供者
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ServiceScope">
+            <summary>
+            服务作用域实现
+            </summary>
+        </member>
+        <member name="T:MiniGin.Extensions.DependencyInjection.ScopedServiceProvider">
+            <summary>
+            作用域服务提供者
+            </summary>
+        </member>
+    </members>
+</doc>

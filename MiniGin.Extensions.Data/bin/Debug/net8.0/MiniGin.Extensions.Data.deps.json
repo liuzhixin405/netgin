@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "MiniGin.Extensions.Data/1.0.0": {
+        "dependencies": {
+          "MiniGin": "1.0.0",
+          "MiniGin.Extensions.DependencyInjection": "1.0.0"
+        },
+        "runtime": {
+          "MiniGin.Extensions.Data.dll": {}
+        }
+      },
+      "MiniGin/1.0.0": {
+        "runtime": {
+          "MiniGin.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "MiniGin.Extensions.DependencyInjection/1.0.0": {
+        "dependencies": {
+          "MiniGin": "1.0.0"
+        },
+        "runtime": {
+          "MiniGin.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MiniGin.Extensions.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MiniGin/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MiniGin.Extensions.DependencyInjection/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
