@@ -77,7 +77,7 @@ public class Engine : RouterGroup
 
     #region 路由注册（内部）
 
-    internal void AddRoute(string method, string path, HandlerFunc[] handlers)
+    internal void AddRoute(string method, string path, HandlerFunc[] handlers, string? tag = null)
     {
         if (string.IsNullOrWhiteSpace(method))
             throw new ArgumentException("HTTP method is required.", nameof(method));
@@ -86,7 +86,7 @@ public class Engine : RouterGroup
             throw new ArgumentException("At least one handler is required.", nameof(handlers));
 
         var pattern = RoutePattern.Parse(path);
-        var route = new Route(method.ToUpperInvariant(), path, pattern, handlers);
+        var route = new Route(method.ToUpperInvariant(), path, pattern, handlers, tag);
 
         _routes.Add(route);
         _routes.Sort((a, b) => b.Pattern.LiteralCount.CompareTo(a.Pattern.LiteralCount));
@@ -378,36 +378,96 @@ public class Engine : RouterGroup
     {
         var paths = new Dictionary<string, object>();
 
+        // 收集所有使用的 tags
+        var usedTags = _routes
+            .Where(r => !string.IsNullOrEmpty(r.Tag))
+            .Select(r => r.Tag!)
+            .Distinct()
+            .OrderBy(t => t)
+            .Select(t => new { name = t, description = $"{t} 相关接口" })
+            .ToList();
+
         foreach (var routeGroup in _routes.GroupBy(r => r.OpenApiPath))
         {
             var operations = new Dictionary<string, object>();
             foreach (var route in routeGroup)
             {
-                operations[route.Method.ToLowerInvariant()] = new
+                var operation = new Dictionary<string, object>
                 {
-                    operationId = $"{route.Method}_{route.Path.Replace("/", "_").Replace(":", "")}",
-                    parameters = route.PathParameters.Select(p => new
+                    ["operationId"] = $"{route.Method}_{route.Path.Replace("/", "_").Replace(":", "")}",
+                    ["parameters"] = route.PathParameters.Select(p => new
                     {
                         name = p,
                         @in = "path",
                         required = true,
                         schema = new { type = "string" }
                     }).ToArray(),
-                    responses = new Dictionary<string, object>
+                    ["responses"] = new Dictionary<string, object>
                     {
                         ["200"] = new { description = "OK" }
                     }
                 };
+
+                // 添加 tags
+                if (!string.IsNullOrEmpty(route.Tag))
+                {
+                    operation["tags"] = new[] { route.Tag };
+                }
+                else
+                {
+                    // 默认根据路径第一段生成 tag
+                    var defaultTag = GetDefaultTag(route.Path);
+                    if (!string.IsNullOrEmpty(defaultTag))
+                    {
+                        operation["tags"] = new[] { defaultTag };
+                        // 添加到 usedTags 中（如果还没有）
+                        if (!usedTags.Any(t => t.name == defaultTag))
+                        {
+                            usedTags.Add(new { name = defaultTag, description = $"{defaultTag} 相关接口" });
+                        }
+                    }
+                }
+
+                operations[route.Method.ToLowerInvariant()] = operation;
             }
             paths[routeGroup.Key] = operations;
         }
+
+        // 对 tags 排序
+        usedTags = usedTags.OrderBy(t => t.name).ToList();
 
         return new
         {
             openapi = "3.0.1",
             info = new { title = _swaggerTitle, version = _swaggerVersion },
+            tags = usedTags,
             paths
         };
+    }
+
+    /// <summary>
+    /// 根据路径获取默认 Tag
+    /// </summary>
+    private static string? GetDefaultTag(string path)
+    {
+        var segments = path.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries);
+        
+        // 跳过 api、v1、v2 等前缀
+        foreach (var segment in segments)
+        {
+            if (segment.Equals("api", StringComparison.OrdinalIgnoreCase))
+                continue;
+            if (segment.StartsWith("v", StringComparison.OrdinalIgnoreCase) && 
+                segment.Length > 1 && char.IsDigit(segment[1]))
+                continue;
+            if (segment.StartsWith(":")) // 跳过参数
+                continue;
+            
+            // 首字母大写
+            return char.ToUpper(segment[0]) + segment[1..].ToLower();
+        }
+        
+        return null;
     }
 
     private static string GenerateSwaggerHtml() => @"<!doctype html>

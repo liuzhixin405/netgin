@@ -13,11 +13,13 @@ public class RouterGroup : IRouter
     private readonly Engine _engine;
     private readonly string _basePath;
     private readonly List<HandlerFunc> _handlers = new();
+    private string? _tag;
 
-    internal RouterGroup(Engine engine, string basePath, IEnumerable<HandlerFunc>? handlers = null)
+    internal RouterGroup(Engine engine, string basePath, IEnumerable<HandlerFunc>? handlers = null, string? tag = null)
     {
         _engine = engine;
         _basePath = basePath;
+        _tag = tag;
         if (handlers != null)
             _handlers.AddRange(handlers);
     }
@@ -30,6 +32,20 @@ public class RouterGroup : IRouter
 
     /// <summary>当前组的处理器链</summary>
     protected IReadOnlyList<HandlerFunc> Handlers => _handlers;
+
+    /// <summary>Swagger 分组标签</summary>
+    public string? Tag => _tag;
+
+    /// <summary>
+    /// 设置当前分组的 Swagger 标签
+    /// </summary>
+    /// <param name="tag">标签名称</param>
+    /// <returns>当前分组实例</returns>
+    public RouterGroup WithTag(string tag)
+    {
+        _tag = tag;
+        return this;
+    }
 
     #region 中间件
 
@@ -87,7 +103,7 @@ public class RouterGroup : IRouter
     {
         var absolutePath = JoinPaths(_basePath, path);
         var mergedHandlers = _handlers.Concat(handlers).ToArray();
-        _engine.AddRoute(method, absolutePath, mergedHandlers);
+        _engine.AddRoute(method, absolutePath, mergedHandlers, _tag);
         return this;
     }
 
@@ -99,7 +115,19 @@ public class RouterGroup : IRouter
     public RouterGroup Group(string relativePath)
     {
         var newPath = JoinPaths(_basePath, relativePath);
-        return new RouterGroup(_engine, newPath, _handlers);
+        return new RouterGroup(_engine, newPath, _handlers, _tag);
+    }
+
+    /// <summary>
+    /// 创建带标签的子分组
+    /// </summary>
+    /// <param name="relativePath">相对路径</param>
+    /// <param name="tag">Swagger 分组标签</param>
+    /// <returns>新的路由分组</returns>
+    public RouterGroup Group(string relativePath, string tag)
+    {
+        var newPath = JoinPaths(_basePath, relativePath);
+        return new RouterGroup(_engine, newPath, _handlers, tag);
     }
 
     #endregion

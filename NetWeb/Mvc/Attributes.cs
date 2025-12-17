@@ -73,3 +73,17 @@ public class HttpPatchAttribute : HttpMethodAttribute
     public override string Method => "PATCH";
     public HttpPatchAttribute(string template = "") : base(template) { }
 }
+
+/// <summary>
+/// 标记控制器的 Swagger 分组标签
+/// </summary>
+[AttributeUsage(AttributeTargets.Class)]
+public class ApiGroupAttribute : Attribute
+{
+    public string Tag { get; }
+
+    public ApiGroupAttribute(string tag)
+    {
+        Tag = tag;
+    }
+}

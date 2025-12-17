@@ -12,3 +12,7 @@
 /NetWeb/obj
 /NetWeb.Extensions.Data/obj
 /NetWeb/obj
+/NetWeb.Extensions.Hosting/bin
+/NetWeb.Extensions.DependencyInjection/obj
+/NetWeb.Extensions.DependencyInjection/bin
+/NetWeb/bin

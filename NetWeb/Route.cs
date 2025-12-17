@@ -12,12 +12,13 @@ public sealed class Route
     /// <summary>
     /// 创建路由定义
     /// </summary>
-    public Route(string method, string path, RoutePattern pattern, HandlerFunc[] handlers)
+    public Route(string method, string path, RoutePattern pattern, HandlerFunc[] handlers, string? tag = null)
     {
         Method = method;
         Path = path;
         Pattern = pattern;
         Handlers = handlers;
+        Tag = tag;
     }
 
     /// <summary>HTTP 方法</summary>
@@ -31,6 +32,9 @@ public sealed class Route
 
     /// <summary>处理器链</summary>
     public HandlerFunc[] Handlers { get; }
+
+    /// <summary>Swagger 分组标签</summary>
+    public string? Tag { get; }
 
     /// <summary>OpenAPI 格式路径</summary>
     public string OpenApiPath => Path.Split('/')

@@ -49,8 +49,14 @@ public static class ControllerExtensions
         var routeAttr = controllerType.GetCustomAttribute<RouteAttribute>();
         var routePrefix = routeAttr?.Template ?? $"/{controllerType.Name.Replace("Controller", "").ToLower()}";
 
-        // 创建路由组
-        var controllerGroup = group.Group(routePrefix);
+        // 获取 Swagger 分组标签
+        var apiGroupAttr = controllerType.GetCustomAttribute<ApiGroupAttribute>();
+        var tag = apiGroupAttr?.Tag;
+
+        // 创建路由组（带标签）
+        var controllerGroup = tag != null 
+            ? group.Group(routePrefix, tag) 
+            : group.Group(routePrefix);
 
         // 获取所有 action 方法
         var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
