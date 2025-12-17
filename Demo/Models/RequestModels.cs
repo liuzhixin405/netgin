@@ -1,4 +1,4 @@
-namespace MiniGin.Demo.Models;
+namespace NetWeb.Demo.Models;
 
 // ==================== 请求模型 ====================
 

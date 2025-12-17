@@ -1,4 +1,4 @@
-namespace MiniGin.Demo.Services;
+namespace NetWeb.Demo.Services;
 
 /// <summary>
 /// 问候服务接口

@@ -1,6 +1,6 @@
-using MiniGin.Extensions.Hosting;
+using NetWeb.Extensions.Hosting;
 
-namespace MiniGin.Demo.HostedServices;
+namespace NetWeb.Demo.HostedServices;
 
 /// <summary>
 /// 心跳服务 - 每 30 秒打印一次心跳

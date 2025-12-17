@@ -1,4 +1,4 @@
-# MiniGin - .NET 轻量级 HTTP 框架
+# NetWeb - .NET 轻量级 HTTP 框架
 
 🚀 基于 **高性能 Socket** 的轻量级 HTTP 框架，借鉴 Go Gin 的优雅 API 风格，采用面向对象设计。
 
@@ -18,9 +18,9 @@
 
 ## 🏗️ 架构说明
 
-MiniGin 使用原生 Socket 实现 HTTP 服务器，相比 HttpListener：
+NetWeb 使用原生 Socket 实现 HTTP 服务器，相比 HttpListener：
 
-| 特性 | MiniGin Socket | HttpListener |
+| 特性 | NetWeb Socket | HttpListener |
 |------|---------------|--------------|
 | 内核模式 | 用户态 Socket | 内核态 http.sys |
 | Keep-Alive | ✅ 原生支持 | ✅ 支持 |
@@ -31,8 +31,8 @@ MiniGin 使用原生 Socket 实现 HTTP 服务器，相比 HttpListener：
 ## 📁 项目结构
 
 ```
-MiniGin/
-├── MiniGin/                                    # 核心框架
+NetWeb/
+├── NetWeb/                                    # 核心框架
 │   ├── Context.cs                              # 请求上下文
 │   ├── Engine.cs                               # HTTP 引擎
 │   ├── Http/                                   # 🔥 Socket HTTP 服务器
@@ -44,9 +44,9 @@ MiniGin/
 │       ├── ControllerBase.cs                   # 控制器基类
 │       ├── Attributes.cs                       # 路由特性
 │       └── ControllerExtensions.cs             # 控制器扫描
-├── MiniGin.Extensions.DependencyInjection/     # 🔌 依赖注入
-├── MiniGin.Extensions.Hosting/                 # ⏰ 后台服务
-├── MiniGin.Extensions.Data/                    # 🗄️ 数据库扩展
+├── NetWeb.Extensions.DependencyInjection/     # 🔌 依赖注入
+├── NetWeb.Extensions.Hosting/                 # ⏰ 后台服务
+├── NetWeb.Extensions.Data/                    # 🗄️ 数据库扩展
 ├── Demo/                                       # 示例代码
 │   ├── Controllers/                            # 控制器示例
 │   ├── Services/                               # 服务定义
@@ -64,7 +64,7 @@ MiniGin/
 ### 1. 最简示例
 
 ```csharp
-using MiniGin;
+using NetWeb;
 
 var app = Gin.Default();
 
@@ -77,11 +77,11 @@ await app.Run("http://localhost:5000/");
 ### 2. 完整示例（含 DI + 数据库 + 后台服务）
 
 ```csharp
-using MiniGin;
-using MiniGin.Mvc;
-using MiniGin.Extensions.DependencyInjection;
-using MiniGin.Extensions.Hosting;
-using MiniGin.Extensions.Data;
+using NetWeb;
+using NetWeb.Mvc;
+using NetWeb.Extensions.DependencyInjection;
+using NetWeb.Extensions.Hosting;
+using NetWeb.Extensions.Data;
 
 var app = Gin.Default();
 app.UseSwagger("Mini Gin API", "v1");
@@ -257,12 +257,12 @@ app.Use(new MyMiddleware());
 
 ## 🎮 控制器模式
 
-除了函数式路由，MiniGin 还支持类似 ASP.NET Core 的控制器写法：
+除了函数式路由，NetWeb 还支持类似 ASP.NET Core 的控制器写法：
 
 ### 定义控制器
 
 ```csharp
-using MiniGin.Mvc;
+using NetWeb.Mvc;
 
 [Route("/api/users")]
 public class UserController : ControllerBase
@@ -356,7 +356,7 @@ var service = GetService<IMyService>();
 
 ## 🔌 依赖注入
 
-MiniGin 内置轻量级 DI 容器，支持三种生命周期：
+NetWeb 内置轻量级 DI 容器，支持三种生命周期：
 
 ```csharp
 app.ConfigureServices(services =>
@@ -386,7 +386,7 @@ app.GET("/users", async ctx =>
 
 ## 🗄️ 数据库支持
 
-MiniGin 支持多种数据库，基于 ADO.NET + Dapper：
+NetWeb 支持多种数据库，基于 ADO.NET + Dapper：
 
 ```csharp
 // MySQL
@@ -538,7 +538,7 @@ api.MapLuckyDrawRoutes();
 ## 🏃 运行
 
 ```powershell
-dotnet run --project MiniGin.Demo.csproj
+dotnet run --project NetWeb.Demo.csproj
 ```
 
 - API 地址：`http://localhost:5000/`
@@ -547,20 +547,20 @@ dotnet run --project MiniGin.Demo.csproj
 ## 📦 打包为 NuGet
 
 ```powershell
-cd MiniGin
+cd NetWeb
 dotnet pack -c Release
 ```
 
-生成的 `.nupkg` 文件位于 `MiniGin/bin/Release/`。
+生成的 `.nupkg` 文件位于 `NetWeb/bin/Release/`。
 
 ## 📋 完整示例
 
 ```csharp
-using MiniGin;
-using MiniGin.Mvc;
-using MiniGin.Extensions.DependencyInjection;
-using MiniGin.Extensions.Hosting;
-using MiniGin.Extensions.Data;
+using NetWeb;
+using NetWeb.Mvc;
+using NetWeb.Extensions.DependencyInjection;
+using NetWeb.Extensions.Hosting;
+using NetWeb.Extensions.Data;
 
 var app = Gin.Default();
 app.UseSwagger("Mini Gin API", "v1");

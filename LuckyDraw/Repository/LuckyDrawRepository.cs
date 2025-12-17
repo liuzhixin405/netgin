@@ -1,7 +1,9 @@
-using System.Data;
-using LuckyDraw.Domain.Entities;
-using MiniGin.Extensions.Data;
 using Dapper;
+using LuckyDraw.Domain.Entities;
+using NetWeb.Extensions.Data;
+using Npgsql;
+using System.Collections.Generic;
+using System.Data;
 
 namespace LuckyDraw.Repository;
 
@@ -11,10 +13,12 @@ namespace LuckyDraw.Repository;
 public class LuckyDrawRepository : ILuckyDrawRepository
 {
     private readonly IDbConnectionFactory _connectionFactory;
+    private readonly ISqlDialect _dialect;
 
-    public LuckyDrawRepository(IDbConnectionFactory connectionFactory)
+    public LuckyDrawRepository(IDbConnectionFactory connectionFactory, ISqlDialect dialect)
     {
         _connectionFactory = connectionFactory;
+        _dialect = dialect;
     }
 
     public async Task<LuckyDrawActivity?> GetActivityByIdAsync(int id)
@@ -33,16 +37,24 @@ public class LuckyDrawRepository : ILuckyDrawRepository
 
     public async Task<IEnumerable<LuckyDrawActivity>> GetAllActivitiesAsync()
     {
+        IEnumerable<LuckyDrawActivity> result = new List<LuckyDrawActivity>();
         using var connection = _connectionFactory.CreateConnection();
-        connection.Open();
-        
-        const string sql = @"
+        try
+        {
+            connection.Open();
+            const string sql = @"
             SELECT Id, Name, Description, Prize, MaxParticipants, CurrentParticipants, 
                    WinnerCount, Status, CreatedAt, DrawTime 
             FROM LuckyDrawActivities 
             ORDER BY CreatedAt DESC";
-        
-        return await connection.QueryAsync<LuckyDrawActivity>(sql);
+            result=await connection.QueryAsync<LuckyDrawActivity>(sql);
+        }
+        catch (PostgresException ex)
+        {
+            Console.WriteLine($"error:{ex.Message}");
+        }
+
+        return result;
     }
 
     public async Task<int> CreateActivityAsync(LuckyDrawActivity activity)
@@ -50,11 +62,11 @@ public class LuckyDrawRepository : ILuckyDrawRepository
         using var connection = _connectionFactory.CreateConnection();
         connection.Open();
         
-        const string sql = @"
+        const string insertSql = @"
             INSERT INTO LuckyDrawActivities (Name, Description, Prize, MaxParticipants, CurrentParticipants, WinnerCount, Status, CreatedAt) 
-            VALUES (@Name, @Description, @Prize, @MaxParticipants, @CurrentParticipants, @WinnerCount, @Status, @CreatedAt);
-            SELECT LAST_INSERT_ID();";
-        
+            VALUES (@Name, @Description, @Prize, @MaxParticipants, @CurrentParticipants, @WinnerCount, @Status, @CreatedAt)";
+
+        var sql = _dialect.GetInsertReturnIdSql(insertSql);
         return await connection.ExecuteScalarAsync<int>(sql, activity);
     }
 
@@ -96,10 +108,12 @@ public class LuckyDrawRepository : ILuckyDrawRepository
 public class ParticipantRepository : IParticipantRepository
 {
     private readonly IDbConnectionFactory _connectionFactory;
+    private readonly ISqlDialect _dialect;
 
-    public ParticipantRepository(IDbConnectionFactory connectionFactory)
+    public ParticipantRepository(IDbConnectionFactory connectionFactory, ISqlDialect dialect)
     {
         _connectionFactory = connectionFactory;
+        _dialect = dialect;
     }
 
     public async Task<Participant?> GetByIdAsync(int id)
@@ -134,11 +148,11 @@ public class ParticipantRepository : IParticipantRepository
         using var connection = _connectionFactory.CreateConnection();
         connection.Open();
         
-        const string sql = @"
+        const string insertSql = @"
             INSERT INTO Participants (ActivityId, Name, Contact, LuckyNumber, IsWinner, JoinedAt) 
-            VALUES (@ActivityId, @Name, @Contact, @LuckyNumber, @IsWinner, @JoinedAt);
-            SELECT LAST_INSERT_ID();";
-        
+            VALUES (@ActivityId, @Name, @Contact, @LuckyNumber, @IsWinner, @JoinedAt)";
+
+        var sql = _dialect.GetInsertReturnIdSql(insertSql);
         return await connection.ExecuteScalarAsync<int>(sql, participant);
     }
 

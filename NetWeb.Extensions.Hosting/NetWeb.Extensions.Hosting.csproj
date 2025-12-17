@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>后台服务托管扩展，为 NetWeb 提供 IHostedService 风格的后台任务支持</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NetWeb.Extensions.DependencyInjection\NetWeb.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\NetWeb\NetWeb.csproj" />
+  </ItemGroup>
+
+</Project>

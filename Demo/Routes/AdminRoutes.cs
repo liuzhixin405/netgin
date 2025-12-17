@@ -1,6 +1,6 @@
-using MiniGin;
+using NetWeb;
 
-namespace MiniGin.Demo.Routes;
+namespace NetWeb.Demo.Routes;
 
 /// <summary>
 /// 管理员相关路由

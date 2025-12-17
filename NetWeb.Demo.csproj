@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- 排除子项目的源文件 -->
+  <ItemGroup>
+    <Compile Remove="NetWeb\**\*.cs" />
+    <Compile Remove="NetWeb.Extensions.DependencyInjection\**\*.cs" />
+    <Compile Remove="NetWeb.Extensions.Hosting\**\*.cs" />
+    <Compile Remove="NetWeb.Extensions.Data\**\*.cs" />
+    <None Remove="NetWeb\**\*" />
+    <None Remove="NetWeb.Extensions.DependencyInjection\**\*" />
+    <None Remove="NetWeb.Extensions.Hosting\**\*" />
+    <None Remove="NetWeb.Extensions.Data\**\*" />
+  </ItemGroup>
+
+  <!-- Dapper for data access -->
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="MySqlConnector" Version="2.3.7" />
+    <PackageReference Include="Npgsql" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.ini" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="NetWeb.Extensions.Data\NetWeb.Extensions.Data.csproj" />
+    <ProjectReference Include="NetWeb.Extensions.DependencyInjection\NetWeb.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="NetWeb.Extensions.Hosting\NetWeb.Extensions.Hosting.csproj" />
+    <ProjectReference Include="NetWeb\NetWeb.csproj" />
+  </ItemGroup>
+
+  <!-- 如需使用 SQLite，取消下面的注释 -->
+  <!-- <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+  </ItemGroup> -->
+
+</Project>

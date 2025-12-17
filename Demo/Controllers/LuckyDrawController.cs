@@ -1,8 +1,8 @@
-using MiniGin.Mvc;
+using NetWeb.Mvc;
 using LuckyDraw.Services;
 using LuckyDraw.Domain.Entities;
 
-namespace MiniGin.Demo.Controllers;
+namespace NetWeb.Demo.Controllers;
 
 /// <summary>
 /// 🎲 抽奖活动控制器

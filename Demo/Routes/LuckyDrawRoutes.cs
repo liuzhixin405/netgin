@@ -1,9 +1,9 @@
-using MiniGin;
-using MiniGin.Extensions.DependencyInjection;
+using NetWeb;
+using NetWeb.Extensions.DependencyInjection;
 using LuckyDraw.Services;
-using MiniGin.Demo.Models;
+using NetWeb.Demo.Models;
 
-namespace MiniGin.Demo.Routes;
+namespace NetWeb.Demo.Routes;
 
 /// <summary>
 /// 🎲 抽奖系统路由

@@ -1,9 +1,9 @@
-using MiniGin;
-using MiniGin.Extensions.DependencyInjection;
-using MiniGin.Demo.Models;
-using MiniGin.Demo.Services;
+using NetWeb;
+using NetWeb.Extensions.DependencyInjection;
+using NetWeb.Demo.Models;
+using NetWeb.Demo.Services;
 
-namespace MiniGin.Demo.Routes;
+namespace NetWeb.Demo.Routes;
 
 /// <summary>
 /// 用户相关路由
